@@ -580,7 +580,7 @@ function renderSeriesHero(pillar) {
       "<p class='series-phrase'>“" + pillar.phrase + "”</p>",
       "<p class='series-intro'>" + pillar.line + " Complete all three chapters to collect the <strong>" + pillar.pillarBadge + " pillar badge</strong>.</p>",
       "<div class='world-row' aria-label='This pillar’s three worlds'>" + pillar.chapters.map(function (item, index) { return "<span><b>" + (index + 1) + "</b>" + item.icon + " " + item.world + "</span>"; }).join("") + "</div>",
-      (hasCamelStudio ? "<p class='studio-callout'><strong>New V2 Camel Studio</strong><span>Draw a lifelike one-hump dromedary with six optional landmark hints, then notice, reason and reflect.</span></p>" : ""),
+      (hasCamelStudio ? "<p class='studio-callout'><strong>New V2 Camel Studio</strong><span>Draw a lifelike one-hump camel with six optional landmark hints, then notice, reason and reflect.</span></p>" : ""),
       "<button class='primary series-main-button' id='seriesBegin' type='button'>" + (hasCamelStudio ? "Begin Camel Studio →" : "Begin →") + "</button>",
     "</div>"
   ].join("");
