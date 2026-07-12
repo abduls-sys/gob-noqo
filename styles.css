@@ -636,6 +636,20 @@ h1, h2, h3 { font-family: "Fraunces", Georgia, serif; }
 .pillar-badge { margin-bottom: 30px; padding: 13px 20px; display: inline-flex; align-items: center; gap: 10px; border-radius: 999px; background: color-mix(in srgb, var(--accent) 15%, white); color: color-mix(in srgb, var(--accent) 75%, var(--ink)); }
 .pillar-badge span { font-size: 1.4rem; }
 
+.studio-callout {
+  width: min(100%, 620px);
+  margin: 4px auto 22px;
+  padding: 16px 18px;
+  display: grid;
+  gap: 4px;
+  border: 1px solid var(--line-strong);
+  border-radius: 14px;
+  background: #faf7ef;
+  text-align: left;
+}
+.studio-callout strong { font-family: "Fraunces", serif; font-size: 1.08rem; }
+.studio-callout span { color: var(--muted); font-size: 0.9rem; line-height: 1.45; }
+
 @media (max-width: 680px) {
   .series-view { padding-top: 6px; }
   .series-top { grid-template-columns: auto 1fr; }

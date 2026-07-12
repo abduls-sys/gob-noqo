@@ -571,6 +571,7 @@ function renderSeries(pillarSlug) {
 }
 
 function renderSeriesHero(pillar) {
+  const hasCamelStudio = pillar.slug === "find-the-pattern";
   return [
     "<div class='series-card series-hero-card'>",
       "<span class='series-big-icon' aria-hidden='true'>" + pillar.icon + "</span>",
@@ -579,7 +580,8 @@ function renderSeriesHero(pillar) {
       "<p class='series-phrase'>“" + pillar.phrase + "”</p>",
       "<p class='series-intro'>" + pillar.line + " Complete all three chapters to collect the <strong>" + pillar.pillarBadge + " pillar badge</strong>.</p>",
       "<div class='world-row' aria-label='This pillar’s three worlds'>" + pillar.chapters.map(function (item, index) { return "<span><b>" + (index + 1) + "</b>" + item.icon + " " + item.world + "</span>"; }).join("") + "</div>",
-      "<button class='primary series-main-button' id='seriesBegin' type='button'>Begin →</button>",
+      (hasCamelStudio ? "<p class='studio-callout'><strong>New V2 Camel Studio</strong><span>Draw a lifelike one-hump dromedary with six optional landmark hints, then notice, reason and reflect.</span></p>" : ""),
+      "<button class='primary series-main-button' id='seriesBegin' type='button'>" + (hasCamelStudio ? "Begin Camel Studio →" : "Begin →") + "</button>",
     "</div>"
   ].join("");
 }
@@ -675,6 +677,10 @@ function bindSeriesActions(pillar, chapter) {
   const begin = document.querySelector("#seriesBegin");
   if (begin) {
     begin.addEventListener("click", function () {
+      if (pillar.slug === "find-the-pattern") {
+        window.location.href = "camel-studio.html";
+        return;
+      }
       state.screen = "draw";
       renderSeries(pillar.slug);
     });

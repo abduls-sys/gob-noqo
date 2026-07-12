@@ -1,0 +1,224 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Gob Noqo Camel Studio: a realistic guided dromedary drawing with child-led science, reasoning and Qur’an reflection.">
+  <title>Gob Noqo V2 · Camel Studio</title>
+  <style>
+    :root{
+      --paper:#f4f0e7;--sheet:#fffefa;--ink:#171713;--soft:#6c6961;
+      --rule:#d8d2c6;--sand:#aa772d;--sand-soft:#f2e8d6;--shadow:0 24px 70px rgba(29,25,19,.09)
+    }
+    *{box-sizing:border-box}
+    html{background:var(--paper);scroll-behavior:smooth}
+    body{margin:0;min-height:100vh;color:var(--ink);background:var(--paper);font-family:Inter,ui-sans-serif,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}
+    button,textarea{font:inherit;color:inherit}
+    button{cursor:pointer}
+    button:focus-visible,textarea:focus-visible{outline:3px solid var(--sand);outline-offset:3px}
+    .app{width:min(1240px,calc(100% - 28px));margin:auto}
+    header{min-height:76px;display:flex;align-items:center;justify-content:space-between;gap:16px}
+    .brand{display:flex;align-items:center;gap:11px;color:inherit;font-family:Georgia,serif;font-size:1.16rem;text-decoration:none}
+    .mark{width:34px;height:34px;border:1.5px solid var(--ink);border-radius:50%;display:grid;place-items:center;font-size:.72rem;font-family:Inter,sans-serif;font-weight:800}
+    .prototype{padding:7px 11px;border:1px solid var(--rule);border-radius:999px;color:var(--soft);font-size:.7rem;font-weight:750;letter-spacing:.08em;text-transform:uppercase}
+    main{padding:4px 0 44px}
+    .cover,.studio,.finish{min-height:720px;border:1px solid var(--rule);border-radius:24px;background:var(--sheet);box-shadow:var(--shadow)}
+    .cover{padding:clamp(26px,6vw,76px);display:grid;grid-template-columns:.86fr 1.14fr;gap:clamp(28px,6vw,78px);align-items:center}
+    .kicker{margin:0 0 13px;color:var(--sand);font-size:.72rem;font-weight:800;letter-spacing:.13em;text-transform:uppercase}
+    h1,h2{margin:0;font-family:Georgia,serif;font-weight:500;letter-spacing:-.025em}
+    h1{max-width:11ch;font-size:clamp(3.1rem,7vw,6.4rem);line-height:.92}
+    h2{font-size:clamp(2rem,4vw,3.4rem);line-height:1}
+    .lead{max-width:49ch;margin:20px 0 28px;color:var(--soft);font-size:1.05rem;line-height:1.65}
+    .cover-actions{display:flex;align-items:center;flex-wrap:wrap;gap:14px}
+    .primary,.quiet,.hint-button{min-height:50px;padding:0 20px;border-radius:999px;font-weight:750}
+    .primary{border:1px solid var(--ink);background:var(--ink);color:white}
+    .quiet{border:1px solid var(--rule);background:transparent}
+    .note{color:var(--soft);font-size:.78rem}
+    .portrait{position:relative;min-height:560px;display:grid;place-items:center;overflow:hidden;border-radius:18px;background:#fbfaf6}
+    .portrait::before{content:"";position:absolute;inset:20px;border:1px solid var(--rule);border-radius:12px}
+    .portrait img{position:relative;width:94%;max-height:560px;object-fit:contain;filter:contrast(1.06)}
+    .camel *{vector-effect:non-scaling-stroke}
+    .camel .outline,.camel .detail,.camel .ground{fill:none;stroke:var(--ink);stroke-linecap:round;stroke-linejoin:round}
+    .camel .outline{stroke-width:3.2}
+    .camel .detail{stroke-width:1.6}
+    .camel .ground{stroke:var(--sand);stroke-width:1.5}
+    .portrait-caption{position:absolute;left:38px;bottom:32px;padding:7px 10px;background:rgba(255,254,250,.92);color:var(--soft);font-size:.7rem;letter-spacing:.05em;text-transform:uppercase}
+    .studio{display:none;grid-template-columns:238px minmax(0,1fr);overflow:hidden}
+    .studio.active{display:grid}
+    .rail{padding:28px 18px;border-right:1px solid var(--rule);background:#faf8f2}
+    .rail .small{color:var(--sand);font-size:.68rem;font-weight:800;letter-spacing:.1em;text-transform:uppercase}
+    .rail h2{margin:7px 0 8px;font-size:1.75rem}
+    .rail p{margin:0;color:var(--soft);font-size:.86rem;line-height:1.45}
+    .tasks{margin-top:26px;display:grid;gap:7px}
+    .task{min-height:61px;padding:10px 9px;display:grid;grid-template-columns:34px 1fr 18px;align-items:center;gap:8px;border:1px solid transparent;border-radius:12px;background:transparent;text-align:left}
+    .task .number{width:32px;height:32px;display:grid;place-items:center;border:1px solid var(--rule);border-radius:50%;font-size:.75rem;font-weight:800}
+    .task strong{display:block;font-size:.88rem}.task small{color:var(--soft)}
+    .task .check{opacity:0}.task.done .check{opacity:1}.task.current{border-color:var(--rule);background:var(--sheet)}
+    .mode{margin-top:28px;padding-top:18px;border-top:1px solid var(--rule)}
+    .mode label{display:block;margin-bottom:8px;color:var(--soft);font-size:.68rem;font-weight:800;letter-spacing:.08em;text-transform:uppercase}
+    .mode-buttons{display:grid;grid-template-columns:repeat(3,1fr);gap:5px}
+    .mode-buttons button{min-height:38px;padding:4px;border:1px solid var(--rule);border-radius:9px;background:transparent;font-size:.7rem;font-weight:750}
+    .mode-buttons button.active{border-color:var(--ink);background:var(--ink);color:white}
+    .page{position:relative;min-width:0;padding:clamp(24px,4.5vw,56px)}
+    .page-section{display:none;min-height:610px}.page-section.active{display:flex;flex-direction:column;animation:enter .22s ease}
+    @keyframes enter{from{opacity:0;transform:translateY(4px)}}
+    .page-head{display:flex;justify-content:space-between;align-items:flex-start;gap:16px;margin-bottom:20px}
+    .page-head h2{margin-bottom:9px}.page-head p{max-width:58ch;margin:0;color:var(--soft);line-height:1.55}
+    .page-label{white-space:nowrap;padding:7px 10px;border:1px solid var(--rule);border-radius:999px;color:var(--soft);font-size:.7rem;font-weight:750}
+    .drawing-grid{display:grid;grid-template-columns:minmax(0,1.35fr) minmax(250px,.65fr);gap:16px;flex:1}
+    .lightbox{position:relative;min-height:465px;display:grid;place-items:center;overflow:hidden;border:1px solid var(--rule);border-radius:15px;background:#fff}
+    .camel-reference{width:100%;height:100%;object-fit:contain;filter:contrast(1.08);transition:opacity .2s ease}
+    .landmarks{position:absolute;inset:0;width:100%;height:100%;pointer-events:none}
+    .landmarks [data-landmark]{opacity:0;transition:opacity .2s ease}
+    .landmarks [data-landmark].now{opacity:1}
+    .landmarks ellipse,.landmarks path{fill:none;stroke:var(--sand);stroke-width:5;stroke-dasharray:14 12;vector-effect:non-scaling-stroke}
+    .lightbox.free .landmarks{opacity:0}.lightbox.guide-hidden .camel-reference{opacity:.06}
+    .toolstrip{position:absolute;right:10px;bottom:10px;display:flex;gap:6px}
+    .toolstrip button{min-height:36px;padding:0 10px;border:1px solid var(--rule);border-radius:999px;background:rgba(255,254,250,.94);font-size:.69rem;font-weight:750}
+    .coach{padding:21px;display:flex;flex-direction:column;border:1px solid var(--rule);border-radius:15px;background:#faf8f2}
+    .step-count{color:var(--sand);font-size:.68rem;font-weight:800;letter-spacing:.1em;text-transform:uppercase}
+    .coach h3{margin:9px 0 8px;font-family:Georgia,serif;font-size:1.55rem;font-weight:500}
+    .coach-copy{margin:0;color:var(--soft);line-height:1.52}
+    .hint-button{width:100%;margin-top:17px;border:1px solid var(--rule);background:transparent;text-align:left}
+    .hint{display:none;margin-top:8px;padding:13px;border-left:2px solid var(--sand);background:var(--sand-soft);font-size:.86rem;line-height:1.45}
+    .hint.open{display:block}.hint strong{display:block;margin-bottom:3px}
+    .step-nav{margin-top:auto;display:grid;grid-template-columns:1fr 1fr;gap:7px;padding-top:18px}
+    .step-nav button{min-height:44px;border:1px solid var(--rule);border-radius:10px;background:var(--sheet);font-weight:750}
+    .step-nav .next{border-color:var(--ink);background:var(--ink);color:white}
+    .stamp{width:min(100%,420px);min-height:50px;margin:16px auto 0;border:1px solid var(--ink);border-radius:999px;background:var(--ink);color:white;font-weight:750}
+    .stamp.done{background:var(--sand);border-color:var(--sand)}
+    .feature-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin:8px 0 22px}
+    .feature,.answer{padding:16px;border:1px solid var(--rule);border-radius:13px;background:transparent;text-align:left}
+    .feature{min-height:98px}.feature b{display:block;margin-bottom:5px;font-family:Georgia,serif;font-size:1.18rem;font-weight:500}.feature span{color:var(--soft);font-size:.88rem;line-height:1.4}
+    .feature.selected{border-color:var(--sand);background:var(--sand-soft)}
+    .prompt{padding:17px;border-left:2px solid var(--sand);background:#faf8f2;line-height:1.5}
+    textarea{width:100%;min-height:105px;margin:10px 0 16px;padding:14px;border:1px solid var(--rule);border-radius:12px;background:#fff;resize:vertical}
+    .answers{display:grid;gap:8px;margin:10px 0 16px}.answer.correct{border-color:var(--ink);background:#efeee9}.answer.wrong{opacity:.52}
+    .feedback{display:none;padding:15px;border-left:2px solid var(--ink);background:#efeee9;line-height:1.5}.feedback.show{display:block}
+    .science{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:8px 0 22px}
+    .science article{padding:20px;border:1px solid var(--rule);border-radius:13px}.science span{color:var(--sand);font-size:.68rem;font-weight:800;letter-spacing:.1em;text-transform:uppercase}.science p{margin:8px 0 0;line-height:1.55}
+    .quran{padding:24px;border:1px solid var(--rule);border-radius:13px;background:#faf8f2;text-align:center}.quran span{color:var(--sand);font-size:.68rem;font-weight:800;letter-spacing:.1em;text-transform:uppercase}.quran p{max-width:38ch;margin:12px auto 7px;font-family:Georgia,serif;font-size:1.3rem;line-height:1.45}.quran .arabic{max-width:none;margin:14px auto 8px;font-family:"Geeza Pro","Noto Naskh Arabic",serif;font-size:clamp(1.75rem,4vw,2.5rem);line-height:1.65;direction:rtl}.quran .translation{margin-top:4px;font-family:Georgia,serif;font-size:1.12rem}.quran .meaning{display:block;margin:0 auto 14px;color:var(--soft);font-size:.72rem;letter-spacing:0;text-transform:none}
+    .finish{display:none;padding:clamp(30px,8vw,90px);place-items:center;text-align:center}.finish.active{display:grid}.finish h1{margin:auto}.finish .lead{margin-inline:auto}.seal{width:100px;height:100px;margin:0 auto 22px;display:grid;place-items:center;border:1px solid var(--ink);border-radius:50%;font-size:2.6rem}
+    footer{padding:18px;color:var(--soft);font-size:.76rem;text-align:center}
+    @media(max-width:900px){.cover{grid-template-columns:1fr}.portrait{min-height:430px;order:-1}.studio.active{grid-template-columns:1fr}.rail{border-right:0;border-bottom:1px solid var(--rule)}.rail p,.mode{display:none}.tasks{grid-template-columns:repeat(4,1fr);margin-top:16px}.task{grid-template-columns:1fr;justify-items:center;text-align:center}.task small,.task .check{display:none}.drawing-grid{grid-template-columns:1fr}.lightbox{min-height:390px}}
+    @media(max-width:560px){.app{width:min(100% - 16px,1240px)}header{min-height:62px}.prototype{display:none}.cover,.studio,.finish{border-radius:17px}.cover{padding:24px 16px}.portrait{min-height:330px}.portrait::before{inset:10px}.portrait-caption{left:22px;bottom:18px}h1{font-size:3.2rem}.tasks{grid-template-columns:repeat(2,1fr)}.page{padding:25px 14px}.page-head{display:block}.page-label{display:inline-block;margin-bottom:12px}.feature-grid,.science{grid-template-columns:1fr}.lightbox{min-height:310px}.coach{padding:17px}}
+    @media(prefers-reduced-motion:reduce){.page-section.active{animation:none}.camel-reference,.landmarks [data-landmark]{transition:none}}
+    @media print{header,.rail,.page-head,.coach,.toolstrip,.stamp,footer{display:none!important}.studio,.studio.active{display:block!important;border:0;box-shadow:none}.page{padding:0}.page-section{display:none!important}.page-section#draw{display:block!important}.drawing-grid{display:block}.lightbox{min-height:95vh;border:0}.landmarks{display:none}.camel-reference{opacity:1!important}}
+  </style>
+</head>
+<body>
+  <div class="app">
+    <header><a class="brand" href="index.html#home" aria-label="Return to Gob Noqo home"><span class="mark">GN</span> Gob Noqo</a><span class="prototype">V2 · Camel Studio</span></header>
+    <main>
+      <section class="cover" id="cover">
+        <div>
+          <p class="kicker">Find the Pattern · Camel study</p>
+          <h1>Draw what makes it a camel.</h1>
+          <p class="lead">Choose your path. Build a lifelike dromedary one useful shape at a time, ask for a hint only when you need one, then explain the clues you found.</p>
+          <div class="cover-actions"><button class="primary" id="start" type="button">Start my study →</button><span class="note">About 8 minutes · paper + pencil</span></div>
+        </div>
+        <div class="portrait">
+          <img src="assets/dromedary-study-v2.png" alt="Original anatomically grounded line drawing of a one-humped dromedary camel">
+          <span class="portrait-caption">Original dromedary study · one hump</span>
+        </div>
+      </section>
+
+      <section class="studio" id="studio">
+        <aside class="rail">
+          <span class="small">Your camel study</span><h2>Choose a page.</h2><p>Start anywhere. A tick means your paper work is complete.</p>
+          <div class="tasks">
+            <button class="task current" data-page="draw" type="button"><span class="number">01</span><span><strong>Draw</strong><small>Build the animal</small></span><span class="check">✓</span></button>
+            <button class="task" data-page="notice" type="button"><span class="number">02</span><span><strong>Notice</strong><small>Collect evidence</small></span><span class="check">✓</span></button>
+            <button class="task" data-page="reason" type="button"><span class="number">03</span><span><strong>Reason</strong><small>Explain a clue</small></span><span class="check">✓</span></button>
+            <button class="task" data-page="wonder" type="button"><span class="number">04</span><span><strong>Wonder</strong><small>Science + tafakkur</small></span><span class="check">✓</span></button>
+          </div>
+          <div class="mode"><label>How will you draw?</label><div class="mode-buttons"><button class="active" data-mode="Trace" type="button">Trace</button><button data-mode="Copy" type="button">Copy</button><button data-mode="Print" type="button">Print</button></div></div>
+        </aside>
+        <div class="page">
+          <section class="page-section active" id="draw">
+            <div class="page-head"><div><p class="kicker">Page 1 · Drawing studio</p><h2>Build it from six landmarks.</h2><p id="modeInstruction">Place paper gently over the screen. Trace only the highlighted lines, then move to the next landmark.</p></div><span class="page-label" id="modeLabel">Trace mode</span></div>
+            <div class="drawing-grid">
+              <div class="lightbox" id="lightbox">
+                <img class="camel-reference" src="assets/dromedary-study-v2.png" alt="Original lifelike dromedary line drawing used as a trace or copy guide">
+                <svg class="landmarks" viewBox="0 0 1448 1086" aria-hidden="true">
+                  <g data-landmark="1"><ellipse cx="930" cy="390" rx="365" ry="265"/></g>
+                  <g data-landmark="2"><ellipse cx="335" cy="315" rx="235" ry="255"/></g>
+                  <g data-landmark="3"><ellipse cx="840" cy="795" rx="400" ry="250"/></g>
+                  <g data-landmark="4"><ellipse cx="840" cy="945" rx="390" ry="90"/><ellipse cx="1238" cy="545" rx="75" ry="150"/></g>
+                  <g data-landmark="5"><ellipse cx="760" cy="450" rx="515" ry="310"/></g>
+                  <g data-landmark="6"><path d="M350 995c235 20 468 20 700 0"/></g>
+                </svg>
+                <div class="toolstrip"><button id="allLines" type="button">Clean outline</button><button id="hideGuide" type="button">Hide guide</button></div>
+              </div>
+              <aside class="coach">
+                <span class="step-count">Landmark <b id="stepNumber">1</b> of 6</span><h3 id="stepTitle">Back, hump and belly</h3><p class="coach-copy" id="stepCopy">Follow the back into one tall hump. Curve down through the hips, then return along the belly.</p>
+                <button class="hint-button" id="hintButton" aria-expanded="false" type="button">I’m stuck — show a hint</button><div class="hint" id="hint"><strong id="hintTitle">Find the biggest shape.</strong><span id="hintCopy">Imagine a soft hill sitting above a long, shallow bowl.</span></div>
+                <div class="step-nav"><button id="previousStep" type="button">← Back</button><button class="next" id="nextStep" type="button">Next →</button></div>
+              </aside>
+            </div>
+            <button class="stamp" data-stamp="draw" type="button">My drawing is on paper ✓</button>
+          </section>
+
+          <section class="page-section" id="notice">
+            <div class="page-head"><div><p class="kicker">Page 2 · Look closely</p><h2>Which details are strong evidence?</h2><p>Select three features that help a scientist identify or understand this animal.</p></div><span class="page-label">Choose 3</span></div>
+            <div class="feature-grid">
+              <button class="feature" type="button"><b>One hump</b><span>A dromedary stores fat there for energy.</span></button>
+              <button class="feature" type="button"><b>Broad padded feet</b><span>They spread weight over loose sand.</span></button>
+              <button class="feature" type="button"><b>Long, jointed legs</b><span>They lift the body away from hot ground.</span></button>
+              <button class="feature" type="button"><b>Long curved neck</b><span>It helps reach plants at different heights.</span></button>
+            </div>
+            <p class="prompt"><strong>On your paper:</strong> circle your strongest clue and finish, “I recognise a dromedary because…”</p>
+            <button class="stamp" data-stamp="notice" type="button" disabled>Select 3 clues</button>
+          </section>
+
+          <section class="page-section" id="reason">
+            <div class="page-head"><div><p class="kicker">Page 3 · Reason with evidence</p><h2>What is the strongest explanation?</h2><p>Say your own idea first. Then compare it with the three choices.</p></div><span class="page-label">Evidence first</span></div>
+            <label for="ownIdea"><strong>My idea (optional — it stays on this device only):</strong></label><textarea id="ownIdea" placeholder="The camel's wide foot helps on sand because…"></textarea>
+            <div class="answers"><button class="answer" data-answer="correct" type="button">A broad padded foot spreads the camel’s weight, so it sinks less into soft sand.</button><button class="answer" data-answer="wrong" type="button">The foot is broad because camels are large animals.</button><button class="answer" data-answer="wrong" type="button">The foot is broad because sand is yellow and warm.</button></div>
+            <div class="feedback" id="feedback"><strong id="feedbackTitle"></strong><br>The strongest answer connects the foot’s shape to what it does on loose ground.</div>
+            <button class="stamp" data-stamp="reason" type="button" disabled>Choose an explanation</button>
+          </section>
+
+          <section class="page-section" id="wonder">
+            <div class="page-head"><div><p class="kicker">Page 4 · Science and tafakkur</p><h2>Connect what you saw.</h2><p>Use the drawing as evidence, then leave with a question of your own.</p></div><span class="page-label">Wonder deeply</span></div>
+            <div class="science"><article><span>Science clue</span><p>A camel’s hump stores fat, not water. That stored energy can help when food is scarce.</p></article><article><span>Transfer challenge</span><p>If an animal lived on icy rock instead of sand, which kind of foot might help it move safely? Explain why.</p></article></div>
+            <div class="quran"><span>Qur’an reflection · 88:17</span><p class="arabic" lang="ar" dir="rtl">أَفَلَا يَنظُرُونَ إِلَى ٱلْإِبِلِ كَيْفَ خُلِقَتْ</p><p class="translation">“Do they not look at the camel—how it was created?”</p><small class="meaning">Plain English meaning</small><strong>Which useful detail makes you wonder most?</strong></div>
+            <p class="prompt"><strong>On your paper:</strong> write or draw one question you would ask a camel scientist.</p>
+            <button class="stamp" data-stamp="wonder" type="button">My wonder is on paper ✓</button>
+          </section>
+        </div>
+      </section>
+
+      <section class="finish" id="finish"><div><div class="seal">🐪</div><p class="kicker">Camel study complete</p><h1>You drew what you noticed.</h1><p class="lead">Your page now holds lifelike landmarks, scientific evidence, a reason and a question worth carrying forward.</p><div class="cover-actions" style="justify-content:center"><a class="primary" href="index.html#pillar/find-the-pattern" style="display:inline-grid;place-items:center;text-decoration:none">Return to the Pattern Gate →</a><button class="quiet" id="reopen" type="button">Reopen my study</button></div></div></section>
+    </main>
+    <footer>Original anatomically grounded illustration · No ads, scores, accounts, analytics or saved child data</footer>
+  </div>
+  <script>
+    const completed=new Set();let currentPage="draw";let step=1;
+    const steps=[
+      ["Back, hump and belly","Follow the back into one tall hump. Curve down through the hips, then return along the belly.","Find the biggest shape.","Imagine a soft hill sitting above a long, shallow bowl."],
+      ["Neck, head and face","Travel up the long neck. Shape the narrow muzzle, then add two ears, one eye and the mouth.","Start where the chest rises.","Use two long curved lines for the neck. Keep the head much smaller than the body."],
+      ["Four jointed legs","Draw each leg in two long sections with a small knee between them.","Look for the bends.","The front and back legs do not bend in exactly the same place. Copy one leg at a time."],
+      ["Feet and tail","Finish each leg with a broad padded foot. Add the thin tail behind the body.","Make the feet wider than the ankles.","A camel foot spreads on sand. Draw a gentle flat base rather than a horse hoof."],
+      ["Folds and body clues","Add a few light folds where the neck, chest and legs bend. These lines explain the form.","Less is enough.","Choose only three or four short curves. They should follow the direction of the body."],
+      ["Ground and your mark","Add a soft ground line, then invent one small desert detail of your own.","Keep the camel as the hero.","Try a pebble, small plant, footprint or far-away dune—not a busy background."]
+    ];
+    const modeText={Trace:"Place paper gently over the screen. Trace only the highlighted lines, then move to the next landmark.",Copy:"Put paper beside the screen. Study the highlighted landmark, draw it, then move to the next one.",Print:"Print the full outline, then complete the study away from the screen."};
+    function openPage(id){currentPage=id;document.querySelectorAll(".page-section").forEach(p=>p.classList.toggle("active",p.id===id));document.querySelectorAll(".task").forEach(t=>t.classList.toggle("current",t.dataset.page===id));window.scrollTo({top:0,behavior:"smooth"})}
+    function updateStep(){document.querySelectorAll("[data-landmark]").forEach(g=>{const n=Number(g.dataset.landmark);g.classList.toggle("now",n===step)});const copy=steps[step-1];document.querySelector("#stepNumber").textContent=step;document.querySelector("#stepTitle").textContent=copy[0];document.querySelector("#stepCopy").textContent=copy[1];document.querySelector("#hintTitle").textContent=copy[2];document.querySelector("#hintCopy").textContent=copy[3];document.querySelector("#previousStep").disabled=step===1;document.querySelector("#nextStep").disabled=step===6;document.querySelector("#hint").classList.remove("open");document.querySelector("#hintButton").setAttribute("aria-expanded","false");document.querySelector("#hintButton").textContent="I’m stuck — show a hint"}
+    function markDone(id){completed.add(id);document.querySelector(`[data-page="${id}"]`).classList.add("done");const button=document.querySelector(`[data-stamp="${id}"]`);button.classList.add("done");button.textContent="Page complete ✓";if(completed.size===4){setTimeout(()=>{document.querySelector("#studio").classList.remove("active");document.querySelector("#finish").classList.add("active");window.scrollTo({top:0,behavior:"smooth"})},300);return}const next=["draw","notice","reason","wonder"].find(x=>!completed.has(x));setTimeout(()=>openPage(next),220)}
+    document.querySelector("#start").addEventListener("click",()=>{document.querySelector("#cover").style.display="none";document.querySelector("#studio").classList.add("active");updateStep()});
+    document.querySelectorAll("[data-page]").forEach(b=>b.addEventListener("click",()=>openPage(b.dataset.page)));
+    document.querySelectorAll("[data-mode]").forEach(b=>b.addEventListener("click",()=>{document.querySelectorAll("[data-mode]").forEach(x=>x.classList.toggle("active",x===b));document.querySelector("#modeLabel").textContent=b.dataset.mode+" mode";document.querySelector("#modeInstruction").textContent=modeText[b.dataset.mode];if(b.dataset.mode==="Print")window.print()}));
+    document.querySelector("#previousStep").addEventListener("click",()=>{step=Math.max(1,step-1);updateStep()});document.querySelector("#nextStep").addEventListener("click",()=>{step=Math.min(6,step+1);updateStep()});
+    document.querySelector("#hintButton").addEventListener("click",e=>{const open=document.querySelector("#hint").classList.toggle("open");e.currentTarget.setAttribute("aria-expanded",String(open));e.currentTarget.textContent=open?"Hide hint":"I’m stuck — show a hint"});
+    document.querySelector("#allLines").addEventListener("click",e=>{const full=document.querySelector("#lightbox").classList.toggle("free");e.currentTarget.textContent=full?"Show landmark":"Clean outline"});
+    document.querySelector("#hideGuide").addEventListener("click",e=>{const hidden=document.querySelector("#lightbox").classList.toggle("guide-hidden");e.currentTarget.textContent=hidden?"Show guide":"Hide guide"});
+    let selected=0;document.querySelectorAll(".feature").forEach(b=>b.addEventListener("click",()=>{b.classList.toggle("selected");selected=document.querySelectorAll(".feature.selected").length;const done=document.querySelector('[data-stamp="notice"]');done.disabled=selected<3;done.textContent=selected<3?`Select ${3-selected} more clue${3-selected===1?"":"s"}`:"My evidence is on paper ✓"}));
+    document.querySelectorAll("[data-answer]").forEach(b=>b.addEventListener("click",()=>{document.querySelectorAll("[data-answer]").forEach(x=>{x.disabled=true;x.classList.toggle("correct",x.dataset.answer==="correct");x.classList.toggle("wrong",x===b&&b.dataset.answer==="wrong")});document.querySelector("#feedbackTitle").textContent=b.dataset.answer==="correct"?"Strong explanation.":"Useful try—now compare the cause and effect.";document.querySelector("#feedback").classList.add("show");const done=document.querySelector('[data-stamp="reason"]');done.disabled=false;done.textContent="My explanation is on paper ✓"}));
+    document.querySelectorAll("[data-stamp]").forEach(b=>b.addEventListener("click",()=>markDone(b.dataset.stamp)));
+    document.querySelector("#reopen").addEventListener("click",()=>{document.querySelector("#finish").classList.remove("active");document.querySelector("#studio").classList.add("active");openPage("draw")});
+    updateStep();
+  </script>
+</body>
+</html>
