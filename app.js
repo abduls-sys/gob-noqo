@@ -233,6 +233,71 @@ const pillars = [
   }
 ];
 
+// Exact Arabic text checked against the Quran Foundation API. English lines are
+// short, child-friendly meanings written for this activity rather than a named translation.
+const quranPassages = {
+  "Qur’an 88:17": {
+    arabic: "أَفَلَا يَنظُرُونَ إِلَى ٱلْإِبِلِ كَيْفَ خُلِقَتْ",
+    meaning: "Do they not look at the camel and consider how it was created?"
+  },
+  "Qur’an 6:99": {
+    arabic: "وَهُوَ ٱلَّذِىٓ أَنزَلَ مِنَ ٱلسَّمَآءِ مَآءً فَأَخْرَجْنَا بِهِۦ نَبَاتَ كُلِّ شَىْءٍ فَأَخْرَجْنَا مِنْهُ خَضِرًا نُّخْرِجُ مِنْهُ حَبًّا مُّتَرَاكِبًا وَمِنَ ٱلنَّخْلِ مِن طَلْعِهَا قِنْوَانٌ دَانِيَةٌ وَجَنَّـٰتٍ مِّنْ أَعْنَابٍ وَٱلزَّيْتُونَ وَٱلرُّمَّانَ مُشْتَبِهًا وَغَيْرَ مُتَشَـٰبِهٍ ۗ ٱنظُرُوٓا۟ إِلَىٰ ثَمَرِهِۦٓ إِذَآ أَثْمَرَ وَيَنْعِهِۦٓ ۚ إِنَّ فِى ذَٰلِكُمْ لَـَٔايَـٰتٍ لِّقَوْمٍ يُؤْمِنُونَ",
+    meaning: "Allah sends water from the sky and brings out plants, grain and fruits. Look at their fruit as it grows and ripens; in this are signs for people who believe."
+  },
+  "Qur’an 51:20–21": {
+    arabic: "وَفِى ٱلْأَرْضِ ءَايَـٰتٌ لِّلْمُوقِنِينَ<br>وَفِىٓ أَنفُسِكُمْ ۚ أَفَلَا تُبْصِرُونَ",
+    meaning: "There are signs on the earth for those with sure faith, and also within yourselves. Will you not see?"
+  },
+  "Qur’an 51:21": {
+    arabic: "وَفِىٓ أَنفُسِكُمْ ۚ أَفَلَا تُبْصِرُونَ",
+    meaning: "And there are signs within yourselves. Will you not see?"
+  },
+  "Qur’an 21:30": {
+    arabic: "أَوَلَمْ يَرَ ٱلَّذِينَ كَفَرُوٓا۟ أَنَّ ٱلسَّمَـٰوَٰتِ وَٱلْأَرْضَ كَانَتَا رَتْقًا فَفَتَقْنَـٰهُمَا ۖ وَجَعَلْنَا مِنَ ٱلْمَآءِ كُلَّ شَىْءٍ حَىٍّ ۖ أَفَلَا يُؤْمِنُونَ",
+    meaning: "The heavens and earth were joined, then Allah separated them, and He made every living thing from water. Will they not believe?"
+  },
+  "Qur’an 7:31": {
+    arabic: "۞ يَـٰبَنِىٓ ءَادَمَ خُذُوا۟ زِينَتَكُمْ عِندَ كُلِّ مَسْجِدٍ وَكُلُوا۟ وَٱشْرَبُوا۟ وَلَا تُسْرِفُوٓا۟ ۚ إِنَّهُۥ لَا يُحِبُّ ٱلْمُسْرِفِينَ",
+    meaning: "Children of Adam, dress well at every place of worship, and eat and drink, but do not waste. Allah does not love wastefulness."
+  },
+  "Qur’an 2:195": {
+    arabic: "وَأَنفِقُوا۟ فِى سَبِيلِ ٱللَّهِ وَلَا تُلْقُوا۟ بِأَيْدِيكُمْ إِلَى ٱلتَّهْلُكَةِ ۛ وَأَحْسِنُوٓا۟ ۛ إِنَّ ٱللَّهَ يُحِبُّ ٱلْمُحْسِنِينَ",
+    meaning: "Spend in Allah’s way. Do not bring yourselves to ruin, and do good; Allah loves those who do good."
+  },
+  "Qur’an 39:21": {
+    arabic: "أَلَمْ تَرَ أَنَّ ٱللَّهَ أَنزَلَ مِنَ ٱلسَّمَآءِ مَآءً فَسَلَكَهُۥ يَنَـٰبِيعَ فِى ٱلْأَرْضِ ثُمَّ يُخْرِجُ بِهِۦ زَرْعًا مُّخْتَلِفًا أَلْوَٰنُهُۥ ثُمَّ يَهِيجُ فَتَرَىٰهُ مُصْفَرًّا ثُمَّ يَجْعَلُهُۥ حُطَـٰمًا ۚ إِنَّ فِى ذَٰلِكَ لَذِكْرَىٰ لِأُو۟لِى ٱلْأَلْبَـٰبِ",
+    meaning: "Allah sends water from the sky, guides it through springs in the earth, and brings out plants of many colours. Later they dry and crumble. This is a reminder for people who understand."
+  },
+  "Qur’an 16:10–11": {
+    arabic: "هُوَ ٱلَّذِىٓ أَنزَلَ مِنَ ٱلسَّمَآءِ مَآءً ۖ لَّكُم مِّنْهُ شَرَابٌ وَمِنْهُ شَجَرٌ فِيهِ تُسِيمُونَ<br>يُنۢبِتُ لَكُم بِهِ ٱلزَّرْعَ وَٱلزَّيْتُونَ وَٱلنَّخِيلَ وَٱلْأَعْنَـٰبَ وَمِن كُلِّ ٱلثَّمَرَٰتِ ۗ إِنَّ فِى ذَٰلِكَ لَـَٔايَةً لِّقَوْمٍ يَتَفَكَّرُونَ",
+    meaning: "Allah sends water from the sky for you to drink and for plants to grow. With it He grows crops, olives, date palms, grapes and many fruits. In this is a sign for people who reflect."
+  },
+  "Qur’an 55:7–9": {
+    arabic: "وَٱلسَّمَآءَ رَفَعَهَا وَوَضَعَ ٱلْمِيزَانَ<br>أَلَّا تَطْغَوْا۟ فِى ٱلْمِيزَانِ<br>وَأَقِيمُوا۟ ٱلْوَزْنَ بِٱلْقِسْطِ وَلَا تُخْسِرُوا۟ ٱلْمِيزَانَ",
+    meaning: "He raised the sky and set the balance, so do not exceed the balance. Weigh with justice and do not give less."
+  },
+  "Qur’an 16:81": {
+    arabic: "وَٱللَّهُ جَعَلَ لَكُم مِّمَّا خَلَقَ ظِلَـٰلًا وَجَعَلَ لَكُم مِّنَ ٱلْجِبَالِ أَكْنَـٰنًا وَجَعَلَ لَكُمْ سَرَٰبِيلَ تَقِيكُمُ ٱلْحَرَّ وَسَرَٰبِيلَ تَقِيكُم بَأْسَكُمْ ۚ كَذَٰلِكَ يُتِمُّ نِعْمَتَهُۥ عَلَيْكُمْ لَعَلَّكُمْ تُسْلِمُونَ",
+    meaning: "Allah made shade, shelters in the mountains, and clothing that protects you from heat and harm. In this way He completes His favour upon you."
+  },
+  "Qur’an 16:80": {
+    arabic: "وَٱللَّهُ جَعَلَ لَكُم مِّنۢ بُيُوتِكُمْ سَكَنًا وَجَعَلَ لَكُم مِّن جُلُودِ ٱلْأَنْعَـٰمِ بُيُوتًا تَسْتَخِفُّونَهَا يَوْمَ ظَعْنِكُمْ وَيَوْمَ إِقَامَتِكُمْ ۙ وَمِنْ أَصْوَافِهَا وَأَوْبَارِهَا وَأَشْعَارِهَآ أَثَـٰثًا وَمَتَـٰعًا إِلَىٰ حِينٍ",
+    meaning: "Allah made your homes a place of rest and gave people portable homes and useful things from the skins, wool and hair of animals."
+  },
+  "Qur’an 23:18": {
+    arabic: "وَأَنزَلْنَا مِنَ ٱلسَّمَآءِ مَآءًۢ بِقَدَرٍ فَأَسْكَنَّـٰهُ فِى ٱلْأَرْضِ ۖ وَإِنَّا عَلَىٰ ذَهَابٍۭ بِهِۦ لَقَـٰدِرُونَ",
+    meaning: "We send water from the sky in due measure and store it in the earth, and We are able to take it away."
+  },
+  "Qur’an 67:23": {
+    arabic: "قُلْ هُوَ ٱلَّذِىٓ أَنشَأَكُمْ وَجَعَلَ لَكُمُ ٱلسَّمْعَ وَٱلْأَبْصَـٰرَ وَٱلْأَفْـِٔدَةَ ۖ قَلِيلًا مَّا تَشْكُرُونَ",
+    meaning: "He created you and gave you hearing, sight and hearts. Yet little thanks you give."
+  },
+  "Qur’an 36:33–35": {
+    arabic: "وَءَايَةٌ لَّهُمُ ٱلْأَرْضُ ٱلْمَيْتَةُ أَحْيَيْنَـٰهَا وَأَخْرَجْنَا مِنْهَا حَبًّا فَمِنْهُ يَأْكُلُونَ<br>وَجَعَلْنَا فِيهَا جَنَّـٰتٍ مِّن نَّخِيلٍ وَأَعْنَـٰبٍ وَفَجَّرْنَا فِيهَا مِنَ ٱلْعُيُونِ<br>لِيَأْكُلُوا۟ مِن ثَمَرِهِۦ وَمَا عَمِلَتْهُ أَيْدِيهِمْ ۖ أَفَلَا يَشْكُرُونَ",
+    meaning: "A sign for them is the lifeless earth: We bring it to life and produce grain to eat. We place gardens of date palms and grapes and make springs flow, so they may eat the fruit. Will they not be grateful?"
+  }
+};
+
 const seriesScreens = ["hero", "draw", "mcq", "think", "reflect", "finish"];
 
 const drawings = {
@@ -580,7 +645,7 @@ function renderSeriesHero(pillar) {
       "<p class='series-phrase'>“" + pillar.phrase + "”</p>",
       "<p class='series-intro'>" + pillar.line + " Complete all three chapters to collect the <strong>" + pillar.pillarBadge + " pillar badge</strong>.</p>",
       "<div class='world-row' aria-label='This pillar’s three worlds'>" + pillar.chapters.map(function (item, index) { return "<span><b>" + (index + 1) + "</b>" + item.icon + " " + item.world + "</span>"; }).join("") + "</div>",
-      (hasCamelStudio ? "<p class='studio-callout'><strong>New V2 Camel Studio</strong><span>Draw a lifelike one-hump dromedary with six optional landmark hints, then notice, reason and reflect.</span></p>" : ""),
+      (hasCamelStudio ? "<p class='studio-callout'><strong>Camel Studio</strong><span>Draw a lifelike one-hump camel with six optional landmark hints, then notice, reason and reflect.</span></p>" : ""),
       "<button class='primary series-main-button' id='seriesBegin' type='button'>" + (hasCamelStudio ? "Begin Camel Studio →" : "Begin →") + "</button>",
     "</div>"
   ].join("");
@@ -639,12 +704,13 @@ function renderThinkScreen(pillar, chapter) {
 
 function renderReflectScreen(pillar, chapter) {
   const isLast = state.chapter === pillar.chapters.length - 1;
+  const passage = quranPassages[chapter.quranRef];
   return [
     "<div class='series-card'>",
       seriesProgress("Reflect", 3),
       "<p class='stage-label'>Chapter " + (state.chapter + 1) + " of 3 · Wonder</p>",
       "<h1 id='seriesTitle'>A sign to wonder about</h1>",
-      "<div class='quran-card'><span>Qur’an reflection</span><p>" + chapter.quranReflection + "</p><strong>" + chapter.quranRef + "</strong></div>",
+      "<div class='quran-card'><span>Qur’an reflection</span><p class='quran-arabic' lang='ar' dir='rtl'>" + passage.arabic + "</p><p class='quran-meaning'>“" + passage.meaning + "”</p><small>Child-friendly English meaning</small><p class='quran-think'><b>Think about it:</b> " + chapter.quranReflection + "</p><strong>" + chapter.quranRef + "</strong></div>",
       "<p class='reflect-question'>" + chapter.reflect + "</p>",
       "<div class='badge-pop'><span aria-hidden='true'>" + chapter.icon + "</span><p>You earned the <strong>" + chapter.badge + "</strong>!</p></div>",
       "<button class='primary series-main-button' id='seriesNext' type='button'>" + (isLast ? "Collect my Pillar Badge 🎉" : "Next drawing →") + "</button>",
@@ -734,7 +800,7 @@ function renderAbout() {
       "<details open><summary><span>How does one pillar work?</span><span aria-hidden='true'>⌄</span></summary><p>Each pillar has three chapters. Every chapter moves through Draw → Reasoning MCQ → Critical Thinking + Science Clue → Qur’an Reflection + mini-badge. Three mini-badges collect into one pillar badge.</p></details>",
       "<details><summary><span>Which worlds appear?</span><span aria-hidden='true'>⌄</span></summary><p>The six pillars revisit five familiar workbook worlds: plants and trees, animals such as the camel, water, kidneys, and wider human-body reflection.</p></details>",
       "<details><summary><span>What do we need?</span><span aria-hidden='true'>⌄</span></summary><p>A tablet or laptop, plain paper, and a pencil or crayon. Use comfortable screen brightness, supervise younger children, and never press hard on the display.</p></details>",
-      "<details><summary><span>About the Qur’an cards</span><span aria-hidden='true'>⌄</span></summary><p>Each card gives a short child-friendly reflection and a verse reference. It is a paraphrase for wondering together, not a replacement for reading a trusted translation or tafsir with an adult.</p></details>",
+      "<details><summary><span>About the Qur’an cards</span><span aria-hidden='true'>⌄</span></summary><p>Each card shows the Arabic verse, a short child-friendly English meaning, and a reflection prompt. The English meaning supports wondering together; families can also read a trusted translation or tafsir with an adult.</p></details>",
       "<details><summary><span>What is intentionally missing?</span><span aria-hidden='true'>⌄</span></summary><p>No accounts, advertisements, scores, streaks, public gallery, analytics, or child data collection. Badges mark the journey; they are not points or competition.</p></details>",
       "<div class='actions' style='margin-top:28px'><button class='primary' id='aboutStart' type='button'>Choose a pillar →</button></div>",
     "</section>"
@@ -743,5 +809,8 @@ function renderAbout() {
 }
 
 function scene(item) {
+  if (item.art === "camel") {
+    return "<img class='realistic-camel-art' src='assets/dromedary-study-v2.png' alt='Original lifelike one-hump camel drawing for tracing'>";
+  }
   return "<svg class='trace-illustration' viewBox='0 0 600 460' role='img' aria-labelledby='sceneTitle'><title id='sceneTitle'>" + item.title + " tracing picture</title>" + drawings[item.art] + "</svg>";
 }
